@@ -63,12 +63,12 @@ function Ensure-WSL {
   }
 
   if (!(Test-IsWindowsAdmin)) {
-    Write-Warning "WSL is not ready. Run an elevated PowerShell and execute: wsl --install"
+    Write-Warning "WSL is not ready. Run an elevated PowerShell and execute: wsl --install -d Ubuntu"
     return $false
   }
 
-  Write-Host "WSL is not ready. Trying to enable WSL..."
-  & wsl.exe --install --no-distribution 2>$null
+  Write-Host "WSL is not ready. Trying to install WSL2 with Ubuntu..."
+  & wsl.exe --install -d Ubuntu 2>$null
   if ($LASTEXITCODE -ne 0) {
     & wsl.exe --install
   }
@@ -77,7 +77,7 @@ function Ensure-WSL {
     Write-Host "WSL install requested. Restart Windows if prompted, then run this bootstrap again."
     return $false
   } else {
-    Write-Warning "Could not enable WSL automatically. Run wsl --install manually in an elevated PowerShell."
+    Write-Warning "Could not enable WSL automatically. Run wsl --install -d Ubuntu manually in an elevated PowerShell."
     return $false
   }
 }

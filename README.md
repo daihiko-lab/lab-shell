@@ -40,7 +40,7 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 - 旧`Windows PowerShell 5.1`から実行してもOKです
 - `PowerShell 7`が無い場合は導入を試行します
 - `WSL`が利用可能なら、`bash`側にも導入を試行します
-- `WSL`が未設定なら、状態チェックと有効化案内を出します
+- `WSL`が未設定なら、`Ubuntu`付きで有効化を試行します (要再起動の場合あり)
 
 ## アップデート
 
