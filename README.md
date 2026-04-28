@@ -7,6 +7,7 @@
 - `starship`によるPrompt設定
 - 最小alias (`gs`,`gd`,`ga`,`gc`,`gp`,`ll`,`..`,`...`,`r`)
 - macOS (`zsh`) と Windows (`PowerShell 7`) 向け導入スクリプト
+- Windowsでは`Windows PowerShell 5.1`から実行しても`PowerShell 7`導入に対応
 
 ## ターミナル表示例
 
@@ -29,11 +30,15 @@
 curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-mac.sh | zsh
 ```
 
-### Windows (PowerShell 7)
+### Windows (PowerShell 5.1 / PowerShell 7)
 
 ```powershell
 irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
 ```
+
+- 旧`Windows PowerShell 5.1`から実行してもOKです
+- `PowerShell 7`が無い場合は導入を試行します
+- `WSL`が未設定なら、状態チェックと有効化案内を出します
 
 ## アップデート
 
@@ -45,7 +50,7 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-mac.sh | zsh
 ```
 
-### Windows (PowerShell 7)
+### Windows (PowerShell 5.1 / PowerShell 7)
 
 ```powershell
 irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
