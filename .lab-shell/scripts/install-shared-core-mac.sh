@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/lab-shell}"
-CORE_DIR="$DOTFILES_DIR/profiles/shared/core"
+CORE_DIR="$DOTFILES_DIR/.lab-shell/core"
 
 if [[ ! -d "$CORE_DIR" ]]; then
   echo "Core profile not found: $CORE_DIR"

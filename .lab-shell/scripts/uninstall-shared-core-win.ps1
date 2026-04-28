@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $DotfilesDir = if ($env:DOTFILES_DIR) { $env:DOTFILES_DIR } else { "$HOME\lab-shell" }
-$CoreDir = Join-Path $DotfilesDir "profiles\shared\core"
+$CoreDir = Join-Path $DotfilesDir ".lab-shell\core"
 $CorePowerShellProfile = Join-Path $CoreDir "powershell\Microsoft.PowerShell_profile.ps1"
 $StarshipConfig = Join-Path $HOME ".config\starship.toml"
 

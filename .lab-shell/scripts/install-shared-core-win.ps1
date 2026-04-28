@@ -5,7 +5,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 }
 
 $DotfilesDir = if ($env:DOTFILES_DIR) { $env:DOTFILES_DIR } else { "$HOME\lab-shell" }
-$CoreDir = Join-Path $DotfilesDir "profiles\shared\core"
+$CoreDir = Join-Path $DotfilesDir ".lab-shell\core"
 $StarshipConfigDir = Join-Path $HOME ".config"
 $StarshipConfig = Join-Path $StarshipConfigDir "starship.toml"
 $PowerShellProfileSource = Join-Path $CoreDir "powershell\Microsoft.PowerShell_profile.ps1"

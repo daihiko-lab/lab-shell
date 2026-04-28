@@ -14,27 +14,35 @@
 ### macOS (zsh)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/scripts/bootstrap-shared-core-mac.sh | zsh
+curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-mac.sh | zsh
 ```
 
 ### Windows (PowerShell 7)
 
 ```powershell
-irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/scripts/bootstrap-shared-core-win.ps1 | iex
+irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
 ```
+
+## VSCodeで反映されない場合
+
+- 統合ターミナルのデフォルトプロファイルを確認  
+  - macOS: `zsh`  
+  - Windows: `PowerShell 7`
+- 既存ターミナルをすべて閉じて、新規ターミナルを開く
+- 反映されない場合は`Developer: Reload Window`を実行
 
 ## アンインストール
 
 ### macOS (zsh)
 
 ```bash
-~/lab-shell/scripts/uninstall-shared-core-mac.sh
+zsh ~/lab-shell/.lab-shell/scripts/uninstall-shared-core-mac.sh
 ```
 
 ### Windows (PowerShell 7)
 
 ```powershell
-& "$HOME\lab-shell\scripts\uninstall-shared-core-win.ps1"
+& "$HOME\lab-shell\.lab-shell\scripts\uninstall-shared-core-win.ps1"
 ```
 
 詳細は`docs/shared-core.md`を参照してください。

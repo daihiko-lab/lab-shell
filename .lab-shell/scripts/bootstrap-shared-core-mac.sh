@@ -20,5 +20,4 @@ else
   exit 1
 fi
 
-chmod +x "$REPO_DIR/scripts/install-shared-core-mac.sh"
-DOTFILES_DIR="$REPO_DIR" "$REPO_DIR/scripts/install-shared-core-mac.sh"
+DOTFILES_DIR="$REPO_DIR" zsh "$REPO_DIR/.lab-shell/scripts/install-shared-core-mac.sh"

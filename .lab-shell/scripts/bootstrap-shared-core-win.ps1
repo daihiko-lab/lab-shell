@@ -19,6 +19,6 @@ if (Test-Path (Join-Path $RepoDir ".git")) {
   git clone $RepoUrl $RepoDir
 }
 
-$installer = Join-Path $RepoDir "scripts\install-shared-core-win.ps1"
+$installer = Join-Path $RepoDir ".lab-shell\scripts\install-shared-core-win.ps1"
 $env:DOTFILES_DIR = $RepoDir
 & $installer
