@@ -1,7 +1,6 @@
 # lab-shell
 
-研究室向けの共通シェル設定です。  
-目的は、初期セットアップを簡単にし、最低限の操作をそろえることです。
+研究室・ゼミ用のカスタムプロンプトです。
 
 ## 含むもの
 
@@ -9,7 +8,36 @@
 - 最小alias (`gs`,`gd`,`ga`,`gc`,`gp`,`ll`,`..`,`...`,`r`)
 - macOS (`zsh`) と Windows (`PowerShell 7`) 向け導入スクリプト
 
+## ターミナル表示例
+
+![lab-shell prompt example](./assets/images/prompt-example.png)
+
+### 表示の見方
+
+- `tak on hiroshimashu...-3.local` : ユーザー名とホスト名
+- `TIME:16:15:46` : 現在時刻
+- `TCNashAgents.jl-dev` : カレントディレクトリ
+- `main!2` : Gitブランチ (`!2`は未ステージ変更2件)
+- `JL:TCNashAgents` : Juliaプロジェクト名
+- `❯` : 入力待ちプロンプト (成功時は緑、失敗時は赤)
+
 ## 導入
+
+### macOS (zsh)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-mac.sh | zsh
+```
+
+### Windows (PowerShell 7)
+
+```powershell
+irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
+```
+
+## アップデート
+
+初回導入と同じコマンドを再実行すれば更新できます。
 
 ### macOS (zsh)
 
