@@ -1,0 +1,95 @@
+add_newline = true
+command_timeout = 1000
+
+format = """
+$username$hostname $battery $time$cmd_duration$jobs
+$directory$git_branch$git_status
+$python$julia$rust
+$character
+"""
+
+[character]
+success_symbol = "[>](bold 76)"
+error_symbol = "[>](bold 196)"
+format = "$symbol "
+
+[username]
+show_always = true
+format = "$user"
+
+[hostname]
+ssh_only = false
+format = " on $hostname"
+
+[battery]
+disabled = false
+format = " [BAT:$percentage$symbol]($style)"
+full_symbol = "="
+charging_symbol = "+"
+discharging_symbol = "-"
+unknown_symbol = "?"
+empty_symbol = "!"
+
+[[battery.display]]
+threshold = 20
+style = "bold #ff005f"
+
+[[battery.display]]
+threshold = 50
+style = "bold #ffaf00"
+
+[[battery.display]]
+threshold = 100
+style = "bold #5fd75f"
+
+[time]
+disabled = false
+format = " [TIME:$time]($style)"
+time_format = "%H:%M:%S"
+style = "bold #8a8a8a"
+
+[cmd_duration]
+min_time = 3000
+format = " [RUN:$duration]($style)"
+style = "bold #ffaf00"
+
+[jobs]
+symbol = ""
+number_threshold = 1
+format = " [JOBS:$number]($style)"
+style = "bold #ff005f"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold #00afff"
+
+[git_branch]
+format = " [$branch]($style)"
+style = "bold #5fd75f"
+
+[git_status]
+format = "[$ahead_behind$stashed$conflicted$staged$modified$untracked$renamed$deleted]($style)"
+style = "bold #d7af00"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+stashed = "*${count}"
+conflicted = "~${count}"
+staged = "+${count}"
+modified = "!${count}"
+untracked = "?${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+[python]
+format = " [PY:${pyenv_prefix}${version}${virtualenv}]($style)"
+style = "bold #ffd75f"
+
+[julia]
+format = " [JL:$version]($style)"
+style = "bold #af87ff"
+
+[rust]
+format = " [RS:$version]($style)"
+style = "bold #ff8700"

@@ -58,6 +58,7 @@ zsh ~/lab-shell/.lab-shell/scripts/uninstall-shared-core-mac.sh
   - Windowsは`PowerShell 7`
 - 既に開いているターミナルには設定が反映されません。新規ターミナルを開いてください
 - 反映されない場合は、`Developer: Reload Window`でウィンドウ再読み込み
+- WindowsではPowerShell向けに`starship.windows.toml`を適用します
 
 ## 補足
 

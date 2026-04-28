@@ -8,6 +8,7 @@ $DotfilesDir = if ($env:DOTFILES_DIR) { $env:DOTFILES_DIR } else { "$HOME\lab-sh
 $CoreDir = Join-Path $DotfilesDir ".lab-shell\core"
 $StarshipConfigDir = Join-Path $HOME ".config"
 $StarshipConfig = Join-Path $StarshipConfigDir "starship.toml"
+$StarshipWindowsConfig = Join-Path $CoreDir "starship.windows.toml"
 $PowerShellProfileSource = Join-Path $CoreDir "powershell\Microsoft.PowerShell_profile.ps1"
 
 if (!(Test-Path $CoreDir)) {
@@ -23,7 +24,11 @@ if (!(Get-Command starship -ErrorAction SilentlyContinue)) {
 }
 
 New-Item -ItemType Directory -Force -Path $StarshipConfigDir | Out-Null
-Copy-Item -Force (Join-Path $CoreDir "starship.toml") $StarshipConfig
+if (Test-Path $StarshipWindowsConfig) {
+  Copy-Item -Force $StarshipWindowsConfig $StarshipConfig
+} else {
+  Copy-Item -Force (Join-Path $CoreDir "starship.toml") $StarshipConfig
+}
 
 if (!(Test-Path (Split-Path -Parent $PROFILE))) {
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $PROFILE) | Out-Null
