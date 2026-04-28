@@ -1,0 +1,12 @@
+.DS_Store
+# macOS
+.AppleDouble
+.LSOverride
+
+# Editor / shell temporary files
+*~
+*.swp
+*.swo
+
+# Local temporary archive
+archive/personal-dotfiles/

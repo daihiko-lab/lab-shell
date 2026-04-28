@@ -1,0 +1,76 @@
+add_newline = true
+command_timeout = 1000
+
+format = """
+$username$hostname $battery $time
+$directory$git_branch$git_status
+$python$julia$rust
+$character
+"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[username]
+show_always = true
+format = "[$user](bold cyan)"
+
+[hostname]
+ssh_only = false
+format = " on [$hostname](bold cyan)"
+
+[battery]
+disabled = false
+format = " [BAT:$percentage$symbol]($style)"
+full_symbol = "="
+charging_symbol = "+"
+discharging_symbol = "-"
+unknown_symbol = "?"
+empty_symbol = "!"
+
+[[battery.display]]
+threshold = 20
+style = "bold red"
+
+[[battery.display]]
+threshold = 50
+style = "bold yellow"
+
+[[battery.display]]
+threshold = 100
+style = "bold green"
+
+[time]
+disabled = false
+format = " [TIME:$time]($style)"
+time_format = "%H:%M:%S"
+style = "dimmed white"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold blue"
+
+[git_branch]
+format = " [$branch]($style)"
+style = "bold green"
+
+[git_status]
+format = "[$all_status$ahead_behind]($style)"
+style = "bold yellow"
+
+[python]
+format = " [PY:$virtualenv]($style)"
+style = "bold yellow"
+detect_files = ["pyproject.toml", "requirements.txt", "setup.py", "Pipfile"]
+
+[julia]
+format = " [JL:$version]($style)"
+style = "bold magenta"
+detect_files = ["Project.toml", "Manifest.toml"]
+
+[rust]
+format = " [RS:$version]($style)"
+style = "bold yellow"
+detect_files = ["Cargo.toml"]
