@@ -4,7 +4,7 @@ command_timeout = 1000
 format = """
 $username$hostname $battery $time$cmd_duration$jobs
 $directory$git_branch$git_status
-$python$julia$rust${custom.r_project}${custom.c_project}${custom.java_project}
+${custom.python_project}${custom.julia_project}${custom.r_project}${custom.rust_project}${custom.c_project}${custom.java_project}${custom.virtualenv}
 $character
 """
 
@@ -14,11 +14,11 @@ error_symbol = "[❯](bold 196)"
 
 [username]
 show_always = true
-format = "[$user](bold #5fd75f)"
+format = "$user"
 
 [hostname]
 ssh_only = false
-format = " on [$hostname](bold #5fd75f)"
+format = " on $hostname"
 
 [battery]
 disabled = false
@@ -71,24 +71,24 @@ style = "bold #5fd75f"
 format = "[$all_status$ahead_behind]($style)"
 style = "bold #d7af00"
 
-[python]
-format = " [PY:${pyenv_prefix}${version}(\\($virtualenv\\))]($style)"
-style = "bold #ffd75f"
-detect_files = ["pyproject.toml", "requirements.txt", "setup.py", "Pipfile"]
+[custom.python_project]
+when = ''' test -f pyproject.toml || test -f requirements.txt || test -f setup.py || test -f Pipfile '''
+format = " [PY:project](bold #ffd75f)"
+shell = ["sh"]
 
-[julia]
-format = " [JL:$version]($style)"
-style = "bold #af87ff"
-detect_files = ["Project.toml", "Manifest.toml"]
-
-[rust]
-format = " [RS:$version]($style)"
-style = "bold #ff8700"
-detect_files = ["Cargo.toml"]
+[custom.julia_project]
+when = ''' test -f Project.toml || test -f Manifest.toml '''
+format = " [JL:project](bold #af87ff)"
+shell = ["sh"]
 
 [custom.r_project]
 when = ''' test -n "$(ls *.Rproj 2>/dev/null)" || test -d renv '''
 format = " [R:project](bold #0087ff)"
+shell = ["sh"]
+
+[custom.rust_project]
+when = ''' test -f Cargo.toml '''
+format = " [RS:project](bold #ff8700)"
 shell = ["sh"]
 
 [custom.c_project]
@@ -99,4 +99,11 @@ shell = ["sh"]
 [custom.java_project]
 when = ''' test -f pom.xml || test -f build.gradle || test -f build.gradle.kts '''
 format = " [JAVA:project](bold #d78700)"
+shell = ["sh"]
+
+[custom.virtualenv]
+when = ''' test -n "$VIRTUAL_ENV" '''
+command = ''' basename "$VIRTUAL_ENV" '''
+format = " ([${output}]($style))"
+style = "bold #ffd75f"
 shell = ["sh"]

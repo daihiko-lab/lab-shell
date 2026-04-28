@@ -1,7 +1,7 @@
 #!/bin/zsh
 set -euo pipefail
 
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/lab-shell}"
 CORE_DIR="$DOTFILES_DIR/profiles/shared/core"
 
 if [[ ! -d "$CORE_DIR" ]]; then

@@ -38,6 +38,20 @@ chmod +x ~/lab-shell/scripts/install-shared-core-mac.sh
 & "$HOME\lab-shell\scripts\install-shared-core-win.ps1"
 ```
 
+## アンインストール
+
+### macOS
+
+```bash
+~/lab-shell/scripts/uninstall-shared-core-mac.sh
+```
+
+### Windows (PowerShell 7)
+
+```powershell
+& "$HOME\lab-shell\scripts\uninstall-shared-core-win.ps1"
+```
+
 ## 補足
 
 - Nerd Font推奨 (記号表示用)

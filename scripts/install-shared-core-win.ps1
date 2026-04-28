@@ -4,7 +4,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
   throw "PowerShell 7 or later is required. Install from https://aka.ms/powershell-release"
 }
 
-$DotfilesDir = if ($env:DOTFILES_DIR) { $env:DOTFILES_DIR } else { "$HOME\dotfiles" }
+$DotfilesDir = if ($env:DOTFILES_DIR) { $env:DOTFILES_DIR } else { "$HOME\lab-shell" }
 $CoreDir = Join-Path $DotfilesDir "profiles\shared\core"
 $StarshipConfigDir = Join-Path $HOME ".config"
 $StarshipConfig = Join-Path $StarshipConfigDir "starship.toml"

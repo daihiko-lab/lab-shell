@@ -23,4 +23,18 @@ curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/scripts/
 irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/scripts/bootstrap-shared-core-win.ps1 | iex
 ```
 
+## アンインストール
+
+### macOS (zsh)
+
+```bash
+~/lab-shell/scripts/uninstall-shared-core-mac.sh
+```
+
+### Windows (PowerShell 7)
+
+```powershell
+& "$HOME\lab-shell\scripts\uninstall-shared-core-win.ps1"
+```
+
 詳細は`docs/shared-core.md`を参照してください。
