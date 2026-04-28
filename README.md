@@ -53,9 +53,6 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 
 ## VSCodeで反映されない場合
 
-- 統合ターミナルのデフォルトプロファイルを確認  
-  - macOS: `zsh`  
-  - Windows: `PowerShell 7`
 - 既存ターミナルをすべて閉じて、新規ターミナルを開く
 - 反映されない場合は`Developer: Reload Window`を実行
 
