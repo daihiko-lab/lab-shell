@@ -16,12 +16,19 @@ function Test-IsWindowsAdmin {
 }
 
 function Ensure-PowerShell7 {
+  $defaultPwshPath = Join-Path ${env:ProgramFiles} "PowerShell\7\pwsh.exe"
+
   if ($PSVersionTable.PSVersion.Major -ge 7) {
-    return "pwsh"
+    return (Get-Command pwsh).Source
   }
 
-  if (Get-Command pwsh -ErrorAction SilentlyContinue) {
-    return "pwsh"
+  $pwshCommand = Get-Command pwsh -ErrorAction SilentlyContinue
+  if ($pwshCommand) {
+    return $pwshCommand.Source
+  }
+
+  if (Test-Path $defaultPwshPath) {
+    return $defaultPwshPath
   }
 
   if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
@@ -31,28 +38,33 @@ function Ensure-PowerShell7 {
   Write-Host "PowerShell 7 is not installed. Installing with winget..."
   winget install --id Microsoft.PowerShell -e --accept-package-agreements --accept-source-agreements
 
-  if (!(Get-Command pwsh -ErrorAction SilentlyContinue)) {
-    throw "PowerShell 7 installation did not complete. Reopen the terminal and run this command again."
+  $pwshCommand = Get-Command pwsh -ErrorAction SilentlyContinue
+  if ($pwshCommand) {
+    return $pwshCommand.Source
   }
 
-  return "pwsh"
+  if (Test-Path $defaultPwshPath) {
+    return $defaultPwshPath
+  }
+
+  throw "PowerShell 7 installation did not complete. Reopen the terminal and run this command again."
 }
 
 function Ensure-WSL {
   if (!(Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
     Write-Warning "WSL command is not available. Skip WSL setup."
-    return
+    return $false
   }
 
-  & wsl.exe -l -v 2>$null | Out-Null
-  if ($LASTEXITCODE -eq 0) {
+  $distros = @(& wsl.exe -l -q 2>$null | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+  if ($LASTEXITCODE -eq 0 -and $distros.Count -gt 0) {
     Write-Host "WSL is available."
-    return
+    return $true
   }
 
   if (!(Test-IsWindowsAdmin)) {
     Write-Warning "WSL is not ready. Run an elevated PowerShell and execute: wsl --install"
-    return
+    return $false
   }
 
   Write-Host "WSL is not ready. Trying to enable WSL..."
@@ -63,8 +75,25 @@ function Ensure-WSL {
 
   if ($LASTEXITCODE -eq 0) {
     Write-Host "WSL install requested. Restart Windows if prompted, then run this bootstrap again."
+    return $false
   } else {
     Write-Warning "Could not enable WSL automatically. Run wsl --install manually in an elevated PowerShell."
+    return $false
+  }
+}
+
+function Invoke-WSLBootstrap {
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]$RepoUrl
+  )
+
+  Write-Host "Applying shared core in WSL (bash)..."
+  $escapedRepo = $RepoUrl.Replace("'", "''")
+  $command = "export REPO_URL='$escapedRepo'; curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-linux.sh | bash"
+  & wsl.exe bash -lc $command
+  if ($LASTEXITCODE -ne 0) {
+    Write-Warning "WSL bootstrap failed. Open WSL and run Linux bootstrap manually."
   }
 }
 
@@ -79,7 +108,7 @@ if (Test-Path (Join-Path $RepoDir ".git")) {
 }
 
 $shell = Ensure-PowerShell7
-Ensure-WSL
+$wslReady = Ensure-WSL
 
 $installer = Join-Path $RepoDir ".lab-shell\scripts\install-shared-core-win.ps1"
 $env:DOTFILES_DIR = $RepoDir
@@ -91,3 +120,6 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
 
 Write-Host "Installed for PowerShell 7 (pwsh)."
 Write-Host "Windows PowerShell 5.1 (powershell.exe) remains available for legacy scripts."
+if ($wslReady) {
+  Invoke-WSLBootstrap -RepoUrl $RepoUrl
+}

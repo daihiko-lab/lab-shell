@@ -9,6 +9,7 @@
 - macOS: `zsh`
 - Windows: `PowerShell 7` (公式対象)
 - 旧`Windows PowerShell 5.1`からbootstrap実行可能 (内部で`pwsh`を利用)
+- WSL2: `bash` (Windows bootstrapから連携可能)
 
 ## 導入 (1コマンド)
 
@@ -26,7 +27,8 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 
 - 旧`Windows PowerShell 5.1`でも実行できます
 - `PowerShell 7`が無ければ`winget`で導入を試行します
-- `WSL`状態をチェックし、未設定時は有効化を案内します
+- `WSL`が利用可能なら`bash`側にも導入を試行します
+- `WSL`未設定時は有効化を案内します
 
 ## 導入 (clone済みの場合)
 
@@ -44,6 +46,12 @@ zsh ~/lab-shell/.lab-shell/scripts/install-shared-core-mac.sh
 
 `install-shared-core-win.ps1`自体は`PowerShell 7`で実行してください。  
 `Windows PowerShell 5.1`から導入する場合はbootstrapを利用します。
+
+### Linux / WSL2 (bash)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-linux.sh | bash
+```
 
 ## アンインストール
 

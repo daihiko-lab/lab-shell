@@ -11,6 +11,11 @@ $StarshipConfig = Join-Path $StarshipConfigDir "starship.toml"
 $StarshipWindowsConfig = Join-Path $CoreDir "starship.windows.toml"
 $PowerShellProfileSource = Join-Path $CoreDir "powershell\Microsoft.PowerShell_profile.ps1"
 
+function Get-WindowsPowerShellProfilePath {
+  $doc = [Environment]::GetFolderPath("MyDocuments")
+  return Join-Path $doc "WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+}
+
 if (!(Test-Path $CoreDir)) {
   throw "Core profile not found: $CoreDir"
 }
@@ -35,5 +40,11 @@ if (!(Test-Path (Split-Path -Parent $PROFILE))) {
 }
 Copy-Item -Force $PowerShellProfileSource $PROFILE
 
+$LegacyProfile = Get-WindowsPowerShellProfilePath
+if (!(Test-Path (Split-Path -Parent $LegacyProfile))) {
+  New-Item -ItemType Directory -Force -Path (Split-Path -Parent $LegacyProfile) | Out-Null
+}
+Copy-Item -Force $PowerShellProfileSource $LegacyProfile
+
 Write-Host "Shared core profile installed."
-Write-Host "Restart PowerShell."
+Write-Host "Restart PowerShell 7 and Windows PowerShell 5.1."
