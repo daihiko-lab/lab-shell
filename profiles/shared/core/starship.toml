@@ -2,23 +2,23 @@ add_newline = true
 command_timeout = 1000
 
 format = """
-$username$hostname $battery $time
+$username$hostname $battery $time$cmd_duration$jobs
 $directory$git_branch$git_status
-$python$julia$rust
+$python$julia$rust$custom.r_project$custom.c_project$custom.java_project
 $character
 """
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold 76)"
+error_symbol = "[❯](bold 196)"
 
 [username]
 show_always = true
-format = "[$user](bold green)"
+format = "[$user](76)"
 
 [hostname]
 ssh_only = false
-format = " on [$hostname](bold green)"
+format = " on [$hostname](76)"
 
 [battery]
 disabled = false
@@ -31,46 +31,72 @@ empty_symbol = "!"
 
 [[battery.display]]
 threshold = 20
-style = "bold red"
+style = "196"
 
 [[battery.display]]
 threshold = 50
-style = "bold 208"
+style = "214"
 
 [[battery.display]]
 threshold = 100
-style = "bold green"
+style = "76"
 
 [time]
 disabled = false
 format = " [TIME:$time]($style)"
 time_format = "%H:%M:%S"
-style = "dimmed white"
+style = "245"
+
+[cmd_duration]
+min_time = 3000
+format = " [RUN:$duration]($style)"
+style = "214"
+
+[jobs]
+symbol = ""
+number_threshold = 1
+format = " [JOBS:$number]($style)"
+style = "196"
 
 [directory]
 truncation_length = 3
 truncate_to_repo = true
-style = "bold blue"
+style = "39"
 
 [git_branch]
 format = " [$branch]($style)"
-style = "bold green"
+style = "76"
 
 [git_status]
 format = "[$all_status$ahead_behind]($style)"
-style = "bold yellow"
+style = "178"
 
 [python]
 format = " [PY:${pyenv_prefix}${version}(\\($virtualenv\\))]($style)"
-style = "bold yellow"
+style = "221"
 detect_files = ["pyproject.toml", "requirements.txt", "setup.py", "Pipfile"]
 
 [julia]
 format = " [JL:$version]($style)"
-style = "bold magenta"
+style = "141"
 detect_files = ["Project.toml", "Manifest.toml"]
 
 [rust]
 format = " [RS:$version]($style)"
-style = "bold 208"
+style = "208"
 detect_files = ["Cargo.toml"]
+
+[custom.r_project]
+when = ''' test -n "$(ls *.Rproj 2>/dev/null)" || test -d renv '''
+format = " [R:project](33)"
+shell = ["sh"]
+
+[custom.c_project]
+when = ''' test -f CMakeLists.txt || test -f Makefile || test -f makefile || test -f meson.build '''
+format = " [C:project](75)"
+shell = ["sh"]
+
+[custom.java_project]
+when = ''' test -f pom.xml || test -f build.gradle || test -f build.gradle.kts '''
+format = " [JAVA:project](166)"
+shell = ["sh"]
