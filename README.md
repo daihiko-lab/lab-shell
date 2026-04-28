@@ -41,6 +41,7 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 - `PowerShell 7`が無い場合は導入を試行します
 - `WSL`が利用可能なら、`bash`側にも導入を試行します
 - `WSL`が未設定なら、`Ubuntu`付きで有効化を試行します (要再起動の場合あり)
+- WSL側の`starship`も自動導入を試行します
 
 ## アップデート
 
