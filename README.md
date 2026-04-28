@@ -25,6 +25,12 @@
 
 ## 導入
 
+### 事前条件
+
+- WSL2の自動有効化は管理者権限が必要な場合があります
+- WSL内で`starship`導入時に`sudo`パスワード入力を求める場合があります
+- `git`未導入時は各OSで自動導入を試行します
+
 ### macOS (zsh)
 
 ```bash
@@ -43,6 +49,18 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 - `WSL`が未設定なら、`Ubuntu`付きで有効化を試行します (要再起動の場合あり)
 - WSL側の`starship`も自動導入を試行します
 
+#### WSL自動導入の流れ
+
+1. bootstrapが`wsl --install -d Ubuntu`を実行
+2. 必要な場合はWindows再起動
+3. 同じbootstrapコマンドを再実行してWSL側設定まで完了
+
+### Linux / WSL2 (bash)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-linux.sh | bash
+```
+
 ## アップデート
 
 初回導入と同じコマンドを再実行すれば更新できます。
@@ -57,6 +75,12 @@ curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-she
 
 ```powershell
 irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
+```
+
+### Linux / WSL2 (bash)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-linux.sh | bash
 ```
 
 ## VSCodeで反映されない場合
@@ -77,6 +101,12 @@ zsh ~/lab-shell/.lab-shell/scripts/uninstall-shared-core-mac.sh
 
 ```powershell
 & "$HOME\lab-shell\.lab-shell\scripts\uninstall-shared-core-win.ps1"
+```
+
+### Linux / WSL2 (bash)
+
+```bash
+rm -f ~/.bashrc ~/.config/starship.toml
 ```
 
 詳細は`docs/shared-core.md`を参照してください。

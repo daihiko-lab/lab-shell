@@ -50,6 +50,23 @@ function Ensure-PowerShell7 {
   throw "PowerShell 7 installation did not complete. Reopen the terminal and run this command again."
 }
 
+function Ensure-Git {
+  if (Get-Command git -ErrorAction SilentlyContinue) {
+    return
+  }
+
+  if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
+    throw "Git is required, but winget is unavailable. Install Git from https://git-scm.com/download/win"
+  }
+
+  Write-Host "Git is not installed. Installing with winget..."
+  winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements
+
+  if (!(Get-Command git -ErrorAction SilentlyContinue)) {
+    throw "Git installation did not complete. Reopen the terminal and run this bootstrap again."
+  }
+}
+
 function Ensure-WSL {
   if (!(Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
     Write-Warning "WSL command is not available. Skip WSL setup."
@@ -97,9 +114,7 @@ function Invoke-WSLBootstrap {
   }
 }
 
-if (!(Get-Command git -ErrorAction SilentlyContinue)) {
-  throw "git is required. Install Git first."
-}
+Ensure-Git
 
 if (Test-Path (Join-Path $RepoDir ".git")) {
   git -C $RepoDir pull --ff-only
