@@ -14,11 +14,11 @@ error_symbol = "[❯](bold red)"
 
 [username]
 show_always = true
-format = "[$user](bold cyan)"
+format = "[$user](bold green)"
 
 [hostname]
 ssh_only = false
-format = " on [$hostname](bold cyan)"
+format = " on [$hostname](bold green)"
 
 [battery]
 disabled = false
@@ -35,7 +35,7 @@ style = "bold red"
 
 [[battery.display]]
 threshold = 50
-style = "bold yellow"
+style = "bold 208"
 
 [[battery.display]]
 threshold = 100
@@ -61,7 +61,7 @@ format = "[$all_status$ahead_behind]($style)"
 style = "bold yellow"
 
 [python]
-format = " [PY:$virtualenv]($style)"
+format = " [PY:${pyenv_prefix}${version}(\\($virtualenv\\))]($style)"
 style = "bold yellow"
 detect_files = ["pyproject.toml", "requirements.txt", "setup.py", "Pipfile"]
 
@@ -72,5 +72,5 @@ detect_files = ["Project.toml", "Manifest.toml"]
 
 [rust]
 format = " [RS:$version]($style)"
-style = "bold yellow"
+style = "bold 208"
 detect_files = ["Cargo.toml"]
