@@ -2,7 +2,7 @@ add_newline = true
 command_timeout = 1000
 
 format = """
-$username$hostname $battery $time$cmd_duration$jobs
+${custom.user_host} $battery $time$cmd_duration$jobs
 $directory$git_branch$git_status
 ${custom.python_project}${custom.julia_project}${custom.r_project}${custom.rust_project}${custom.c_project}${custom.java_project}${custom.virtualenv}
 $character
@@ -12,13 +12,21 @@ $character
 success_symbol = "[❯](bold 76)"
 error_symbol = "[❯](bold 196)"
 
-[username]
-show_always = true
-format = "$user"
-
-[hostname]
-ssh_only = false
-format = " on $hostname"
+[custom.user_host]
+command = '''
+u="${USER:-$(whoami 2>/dev/null)}"
+h="$(hostname 2>/dev/null)"
+if [ -z "$h" ]; then
+  printf "%s" "$u"
+elif [ ${#h} -gt 28 ]; then
+  printf "%s on %s...%s" "$u" "${h%${h#????????????}}" "${h#${h%????????}}"
+else
+  printf "%s on %s" "$u" "$h"
+fi
+'''
+when = "true"
+format = "$output"
+shell = ["sh"]
 
 [battery]
 disabled = false
@@ -63,6 +71,9 @@ truncation_length = 3
 truncate_to_repo = true
 style = "bold #00afff"
 
+[directory.substitutions]
+"schelling-segregation-sim" = "seg-sim"
+
 [git_branch]
 format = " [$branch]($style)"
 style = "bold #5fd75f"
@@ -73,22 +84,52 @@ style = "bold #d7af00"
 
 [custom.python_project]
 when = ''' test -f pyproject.toml || test -f requirements.txt || test -f setup.py || test -f Pipfile '''
-format = " [PY:project](bold #ffd75f)"
+command = '''
+name=""
+if [ -f pyproject.toml ]; then
+  name="$(awk -F'"' '/^name[[:space:]]*=/{print $2; exit}' pyproject.toml 2>/dev/null)"
+fi
+[ -n "$name" ] || name="project"
+printf "PY:%s" "$name"
+'''
+format = " [$output](bold #ffd75f)"
 shell = ["sh"]
 
 [custom.julia_project]
 when = ''' test -f Project.toml || test -f Manifest.toml '''
-format = " [JL:project](bold #af87ff)"
+command = '''
+name=""
+if [ -f Project.toml ]; then
+  name="$(awk -F'"' '/^name[[:space:]]*=/{print $2; exit}' Project.toml 2>/dev/null)"
+fi
+[ -n "$name" ] || name="project"
+printf "JL:%s" "$name"
+'''
+format = " [$output](bold #af87ff)"
 shell = ["sh"]
 
 [custom.r_project]
 when = ''' test -n "$(ls *.Rproj 2>/dev/null)" || test -d renv '''
-format = " [R:project](bold #0087ff)"
+command = '''
+if ls *.Rproj >/dev/null 2>&1; then
+  f="$(ls *.Rproj 2>/dev/null | head -n 1)"
+  base="${f%.Rproj}"
+  printf "R:%s" "${base:-project}"
+else
+  printf "R:renv"
+fi
+'''
+format = " [$output](bold #0087ff)"
 shell = ["sh"]
 
 [custom.rust_project]
 when = ''' test -f Cargo.toml '''
-format = " [RS:project](bold #ff8700)"
+command = '''
+name="$(awk -F'"' '/^name[[:space:]]*=/{print $2; exit}' Cargo.toml 2>/dev/null)"
+[ -n "$name" ] || name="cargo"
+printf "RS:%s" "$name"
+'''
+format = " [$output](bold #ff8700)"
 shell = ["sh"]
 
 [custom.c_project]
@@ -98,7 +139,14 @@ shell = ["sh"]
 
 [custom.java_project]
 when = ''' test -f pom.xml || test -f build.gradle || test -f build.gradle.kts '''
-format = " [JAVA:project](bold #d78700)"
+command = '''
+if [ -f pom.xml ]; then
+  printf "JAVA:maven"
+else
+  printf "JAVA:gradle"
+fi
+'''
+format = " [$output](bold #d78700)"
 shell = ["sh"]
 
 [custom.virtualenv]
