@@ -1,12 +1,7 @@
 add_newline = true
 command_timeout = 1000
 
-format = """
-$username$hostname $battery $time$cmd_duration$jobs
-$directory$git_branch$git_status
-$python$julia$rust
-$character
-"""
+format = "$username$hostname $battery $time$cmd_duration$jobs\n$directory$git_branch$git_status\n$python$julia$rust\n$character"
 
 [character]
 success_symbol = "[>](bold 76)"

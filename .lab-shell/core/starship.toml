@@ -1,12 +1,7 @@
 add_newline = true
 command_timeout = 1000
 
-format = """
-${custom.user_host} $battery $time$cmd_duration$jobs
-$directory$git_branch$git_status
-${custom.python_project}${custom.julia_project}${custom.r_project}${custom.rust_project}${custom.c_project}${custom.java_project}${custom.virtualenv}
-$character
-"""
+format = "${custom.user_host} $battery $time$cmd_duration$jobs\n$directory$git_branch$git_status\n${custom.python_project}${custom.julia_project}${custom.r_project}${custom.rust_project}${custom.c_project}${custom.java_project}${custom.virtualenv}\n$character"
 
 [character]
 success_symbol = "[❯](bold 76)"
