@@ -67,6 +67,28 @@ function Ensure-Git {
   }
 }
 
+function Test-WSLSetupConsent {
+  $flag = $env:LAB_SHELL_WSL
+  if ($null -ne $flag -and $flag.Trim() -ne "") {
+    return ($flag.Trim().ToLower() -eq "yes")
+  }
+
+  if ([Environment]::UserInteractive) {
+    try {
+      Write-Host ""
+      Write-Host "WSL2 (Ubuntu) のインストールが必要な場合はダウンロードが走ります。"
+      Write-Host "また、WSL 内の bash に lab-shell を適用します。"
+      $answer = Read-Host "続行する場合は yes と入力してください (スキップは Enter)"
+      return ($answer.Trim().ToLower() -eq "yes")
+    } catch {
+      # fall through to skip
+    }
+  }
+
+  Write-Warning "WSL のセットアップをスキップしました (非対話または入力不可)。続行する場合は次を実行してから再実行: `$env:LAB_SHELL_WSL='yes'"
+  return $false
+}
+
 function Ensure-WSL {
   if (!(Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
     Write-Warning "WSL command is not available. Skip WSL setup."
@@ -123,7 +145,13 @@ if (Test-Path (Join-Path $RepoDir ".git")) {
 }
 
 $shell = Ensure-PowerShell7
-$wslReady = Ensure-WSL
+
+$wslReady = $false
+if (Test-WSLSetupConsent) {
+  $wslReady = Ensure-WSL
+} else {
+  Write-Host "WSL のインストールと WSL 内への適用をスキップしました。"
+}
 
 $installer = Join-Path $RepoDir ".lab-shell\scripts\install-shared-core-win.ps1"
 $env:DOTFILES_DIR = $RepoDir

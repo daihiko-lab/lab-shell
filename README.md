@@ -11,6 +11,7 @@
 irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scripts/bootstrap-shared-core-win.ps1 | iex
 ```
 
+WSL をセットアップする場合は、途中の質問で **yes** と入力してください。  
 必要ならWindowsを再起動して、同じコマンドをもう1回実行してください。
 
 ### macOS (zsh)
@@ -30,8 +31,8 @@ curl -fsSL https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-she
 - `Windows PowerShell 5.1`から実行しても動作
 - `PowerShell 7`未導入なら導入を試行
 - `git`未導入なら導入を試行
-- `WSL2 (Ubuntu)`未導入なら有効化を試行 (再起動が必要な場合あり)
-- WSL側の`bash`設定と`starship`導入も試行
+- `WSL2 (Ubuntu)`のインストール・有効化と、WSL内への適用は、プロンプトで **yes** と入力したときだけ実行 (再起動が必要な場合あり)
+- 非対話で続行する場合は事前に `$env:LAB_SHELL_WSL='yes'` を設定
 
 ## 推奨運用方針
 

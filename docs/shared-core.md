@@ -27,8 +27,9 @@ irm https://raw.githubusercontent.com/daihiko-lab/lab-shell/main/.lab-shell/scri
 
 - 旧`Windows PowerShell 5.1`でも実行できます
 - `PowerShell 7`が無ければ`winget`で導入を試行します
-- `WSL`が利用可能なら`bash`側にも導入を試行します
-- `WSL`未設定時は有効化を案内します
+- `WSL`のインストールと`bash`側への適用は、プロンプトで **yes** と入力したときだけ実行します
+- 非対話環境では `$env:LAB_SHELL_WSL='yes'` を設定すると同じ内容を実行します
+- `WSL`未設定で管理者でない場合は、案内メッセージのみになります
 
 ## 導入 (clone済みの場合)
 
